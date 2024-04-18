@@ -6,8 +6,8 @@ import os
 import sys
 
 server = '192.168.80.46'
-username = 'admin'
-password = 'Lalureza01'
+username = ''
+password = ''
 
 print ("Connecting to server. Please wait ...")
 try:
