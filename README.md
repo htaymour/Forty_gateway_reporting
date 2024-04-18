@@ -3,5 +3,5 @@
 For reporting on fortigate devices including customer vdoms and managment vdoms. 
 
 For testing use with IP to connect to Fortidevice and make sure to update your logins as per script infromation. 
-example :  python3 edge_rover device_IP {login}
+example :  python3 edge_rover.py device_IP {login}
 
