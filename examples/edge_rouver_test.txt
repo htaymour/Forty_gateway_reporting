@@ -1,1 +1,1241 @@
+>py .\edge_rover.py 10.231.131.13
+Edge rover SDWAN script created by Haytham Taymour by Tmbot@. email: Haytham.taymour@gmail.com
+htaymour
+10.231.131.13
+10.10.59.165
+Connecting to server. Please be patient ...
+Last login: Sun May  5 16:09:04 2024 
+[htaymour@umsvdrems02 ~]$
+Connected sucessfully on the Jump_server IP 10.10.59.165
+**************** Telneting Fortinet Edge 10.231.131.13 ************
 
+
+
+################################ START ROVER REPORTING ON EDGE 10.231.131.13 ##########################
+get system ha status
+HA Health Status: OK
+Model: FortiGate-60F
+Mode: HA A-P
+Group: 10
+Debug: 0
+Cluster Uptime: 38 days 6:52:52
+Cluster state change time: 2024-03-28 09:16:22
+Primary selected using:
+    <2024/03/28 09:16:22> FGT60FTK22099BH9 is selected as the primary because it has the largest value of override priority.
+ses_pickup: disable
+override: disable
+Configuration Status:
+    FGT60FTK22099BH9(updated 0 seconds ago): in-sync
+    FGT60FTK22008290(updated 2 seconds ago): in-sync
+System Usage stats:
+    FGT60FTK22099BH9(updated 0 seconds ago):
+        sessions=476, average-cpu-user/nice/system/idle=0%/0%/0%/100%, memory=53%
+    FGT60FTK22008290(updated 2 seconds ago):
+        sessions=0, average-cpu-user/nice/system/idle=0%/0%/0%/100%, memory=47%
+HBDEV stats:
+    FGT60FTK22099BH9(updated 0 seconds ago):
+        b: physical/1000auto, up, rx-bytes/packets/dropped/errors=11359061310/31341810/0/0, tx=23357889801/34035989/0/0
+        wan1: physical/1000auto, up, rx-bytes/packets/dropped/errors=8071406784/16539768/0/0, tx=8203750645/16539820/0/0
+    FGT60FTK22008290(updated 2 seconds ago):
+        b: physical/1000auto, up, rx-bytes/packets/dropped/errors=23358127269/34035977/0/0, tx=11358197808/31341798/0/0
+        wan1: physical/1000auto, up, rx-bytes/packets/dropped/errors=8203745685/16539810/0/0, tx=8071401904/16539758/0/0
+MONDEV stats:
+    FGT60FTK22099BH9(updated 0 seconds ago):
+        wan2: physical/1000auto, up, rx-bytes/packets/dropped/errors=879329857424/1051270307/0/0, tx=466387483355/967314059/0/0
+    FGT60FTK22008290(updated 2 seconds ago):
+        wan2: physical/1000auto, up, rx-bytes/packets/dropped/errors=810911652/7254896/0/0, tx=0/0/0/0
+Primary     : PPRIMARY040           , FGT60FTK22099BH9, HA cluster index = 0
+Secondary   : PSECONDARY041         , FGT60FTK22008290, HA cluster index = 1
+number of vcluster: 1
+vcluster 1: work 169.254.0.1
+Primary: , HA operating index = 0
+get system status
+Version: FortiGate-60F v6.4.9,build9593,230531 (GA)
+Firmware Signature: certified
+Virus-DB: 92.03992(2024-05-05 05:20)
+Extended DB: 92.03992(2024-05-05 05:19)
+IPS-DB: 27.00779(2024-05-02 00:14)
+IPS-ETDB: 0.00000(2001-01-01 00:00)
+APP-DB: 27.00779(2024-05-02 00:14)
+INDUSTRIAL-DB: 6.00741(2015-12-01 02:30)
+IPS Malicious URL Database: 5.00042(2024-05-05 06:18)
+Serial-Number: 
+BIOS version: 05000009
+System Part-Number: P24286-03
+Log hard disk: Not available
+Hostname: PPRIMARY40
+Private Encryption: Disable
+Operation Mode: NAT
+Current virtual domain: root
+Max number of virtual domains: 10
+Virtual domains status: 2 in NAT mode, 0 in TP mode
+Virtual domain configuration: multiple
+FIPS-CC mode: disable
+Current HA mode: a-p, primary
+Cluster uptime: 38 days, 6 hours, 52 minutes, 53 seconds
+Cluster state change time: 2024-03-28 09:16:22
+Branch point: 1966
+Release Version Information: GA
+get system status | grep "build8887\|HA mode\|cer"
+Firmware Signature: certified
+
+
+
+################################ GLOBAL OPTIONS  ###########################################
+show system ntp
+config system ntp
+    set ntpsync enable
+    set type custom
+    set syncinterval 30
+    config ntpserver
+        edit 1
+            set server "10.7.145.2"
+        next
+    end
+    set source-ip 10.231.131.13
+show system dns
+config system dns
+show system snmp user
+config system snmp user
+show system snmp sysinfo
+config system snmp sysinfo
+    set status enable
+    set description "BG-VAR-01-P"
+    set contact-info "admin@admin.com"
+    set location "emea"
+show system snmp mib-view
+config system snmp mib-view
+show system global | grep timer
+
+PVAR040 (global) $ show system global | grep timer
+    set tcp-halfclose-timer 30
+    set tcp-halfopen-timer 30
+    set tcp-timewait-timer 0
+show log syslogd setting
+config log syslogd setting
+    set status enable
+    set server "10.7.145.3"
+    set source-ip "10.231.131.13"
+show log syslogd filter
+config log syslogd filter
+    set filter "logid(0000000020)"
+    set filter-type exclude
+show log fortianalyzer setting
+config log fortianalyzer setting
+show switch-controller managed-switch
+
+
+
+
+
+################################ HARDWARE NETWORK INTETFACE ###########################################
+get hardware nic
+The following NICs are available:
+        a
+        b
+        dmz
+        internal1
+        internal2
+        internal3
+        internal4
+        internal5
+        npu0_vlink0
+        npu0_vlink1
+        sw_inet1
+        sw_inet2
+        wan1
+get hardware nic a | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+Admin           :up
+Speed           :10
+Duplex          :Half
+get hardware nic b | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+Admin           :up
+Speed           :1000
+Duplex          :Full
+get hardware nic dmz | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+Admin           :down
+Speed           :10
+Duplex          :Half
+get hardware nic internal1 | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+Admin           :up
+Speed           :100
+Duplex          :Full
+get hardware nic internal2 | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+Admin           :up
+Speed           :1000
+Duplex          :Full
+get hardware nic internal3 | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+Admin           :up
+Speed           :10
+Duplex          :Half
+get hardware nic internal4 | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+Admin           :up
+Speed           :1000
+Duplex          :Full
+get hardware nic internal5 | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+Admin           :down
+Speed           :10
+Duplex          :Half
+get hardware nic npu0_vlink0 | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+get hardware nic npu0_vlink1 | grep "Description\|Admin\|Speed\|Duplex\|link_status"
+Description     :FortiASIC NP6XLITE Adapter
+
+
+
+################################ INTETFACE DISCOVERY ###########################################
+show system interface
+name    Name.
+MgtVPN-Back-Ph1   static         up   disable   tunnel
+MgtVPN-Nomi-Ph1   static         up   disable   tunnel
+a   static         up   disable   physical
+b   static         up   disable   physical
+dmz   static         down   disable   physical
+fortilink   static      169.3.1.1 255.255.255.0  up   disable   aggregate
+internal1   static         up   disable   physical
+internal2   static         up   disable   physical
+internal3   static         up   disable   physical
+internal4   static         up   disable   physical
+internal5   static         down   disable   physical
+ivl10   static      169.254.254.2 255.255.255.254  up   disable   vdom-link
+ivl11   static      169.254.254.3 255.255.255.254  up   disable   vdom-link
+ivl20   static      169.254.254.4 255.255.255.254  up   disable   vdom-link
+
+
+
+################################ DETAILED INTETFACE DISCOVERY #################################
+
+     # Name             VDOM       STATUS      TYPE             DESC             IP
+wan1   root   physical   HEARTBEAT1   ORCH=DEPORT   1
+wan2   VDOM-CUST   10.241.8.254   255.255.255.0   ping   physical   CUSTOMER_LAN1   ORCH=CUSTOMER   lan   2
+dmz   root   down   physical   3
+internal1   VDOM-CUST   physical   4
+internal2   VDOM-CUST   physical   5
+internal3   VDOM-CUST   physical   6
+internal4   VDOM-CUST   physical   7
+internal5   root   down   physical   8
+a   root   physical   fortilink   port   9
+b   root   physical   HEARTBEAT2   ORCH=DEPORT   10
+modem   root   mode   pppoe   down   physical   11
+ssl.root   root   tunnel   SSL   VPN   interface   12
+ssl.VDOM-CUST   VDOM-CUST   tunnel   SSL   VPN   interface   13
+npu0_vlink0   root   physical   14
+npu0_vlink1   root   physical   15
+ivl10   VDOM-CUST   169.254.254.2   255.255.255.254   vdom-link   16
+ivl11   root   169.3.254.3   255.255.255.254   vdom-link   17
+ivl20   VDOM-CUST   169.254.254.4   255.255.255.254   vdom-link   18
+ivl21   root   169.254.254.5   255.255.255.254   vdom-link   19
+ivl30   VDOM-CUST   169.254.254.6   255.255.255.254   vdom-link   20
+ivl31   root   169.254.254.7   255.255.255.254   vdom-link   21
+fortilink   root   fortilink   169.254.1.1   255.255.255.0   ping   aggregate   member   a   22   lacp-mode   static
+sw_inet2   VDOM-CUST   217.145.86.73   255.255.255.0   l2forward   hard-switch   UNDERLAY_INET2   wan   23
+sw_inet1   VDOM-CUST   mode   dhcp   l2forward   hard-switch   UNDERLAY_INET1   wan   24
+loopback1111   root   255.255.255.255   ping   https   ssh   snmp   loopback   LOOPBACK1111   126
+MgtVPN-Nomi-Ph1   root   tunnel   MGT_GW_NOMINAL   127   ivl11
+MgtVPN-Back-Ph1   root   tunnel   MGT_GW_BACKUP   128   ivl21
+sgwn_inet2   VDOM-CUST   ping   tunnel   VMZRB1S00180   SGW_NOMINAL_INET2   129   sw_inet2
+sgwn_inet1   VDOM-CUST   ping   tunnel   VMZRB1S00180   SGW_NOMINAL_INET1   130   sw_inet1
+sgwb_inet2   VDOM-CUST   ping   tunnel   VMZRH1S00009   SGW_BACKUP_INET2   131   sw_inet2
+sgwb_inet1   VDOM-CUST   ping   tunnel   VMZRH1S00009   SGW_BACKUP_INET1   132   sw_inet1
+loopback_cust   VDOM-CUST   192.168.255.98   255.255.255.255   ping   loopback   lan   133   PVAR040   (global)   $   PVAR040   (global)   $   PVAR040   (global)   $   show   system   config   system
+wan1   root   physical   HEARTBEAT1   ORCH=DEPORT   1
+wan2   VDOM-CUST   10.241.8.254   255.255.255.0   ping   physical   CUSTOMER_LAN1   ORCH=CUSTOMER   lan   2
+dmz   root   down   physical   3
+internal1   VDOM-CUST   physical   4
+internal2   VDOM-CUST   physical   5
+internal3   VDOM-CUST   physical   6
+internal4   VDOM-CUST   physical   7
+internal5   root   down   physical   8
+a   root   physical   fortilink   port   9
+b   root   physical   HEARTBEAT2   ORCH=DEPORT   10
+modem   root   mode   pppoe   down   physical   11
+ssl.root   root   tunnel   SSL   VPN   interface   12
+ssl.VDOM-CUST   VDOM-CUST   tunnel   SSL   VPN   interface   13
+npu0_vlink0   root   physical   14
+npu0_vlink1   root   physical   15
+ivl10   VDOM-CUST   169.254.254.2   255.255.255.254   vdom-link   16
+ivl11   root   169.254.254.3   255.255.255.254   vdom-link   17
+ivl20   VDOM-CUST   169.254.254.4   255.255.255.254   vdom-link   18
+ivl21   root   169.254.254.5   255.255.255.254   vdom-link   19
+ivl30   VDOM-CUST   169.254.254.6   255.255.255.254   vdom-link   20
+ivl31   root   169.254.254.7   255.255.255.254   vdom-link   21
+fortilink   root   fortilink   169.254.1.1   255.255.255.0   ping   aggregate   member   a   22   lacp-mode   static
+sw_inet2   VDOM-CUST   217.145.86.73   255.255.255.0   l2forward   hard-switch   UNDERLAY_INET2   wan   23
+
+
+
+################################ SYSTEM PERFORMANCE ###########################################
+1"
+        set vdom "VDOM-CUST"
+        set mode dhcp
+        set l2forward enable
+        set type hard-switch
+        set description "UNDERLAY_INET1"
+        set lldp-reception enable
+        set role wan
+        set snmp-index 24
+        set mtu-override enable
+    next
+    edit "loopback1111"
+        set vdom "root"
+        set ip 10.231.131.13 255.255.255.255
+        set allowaccess ping https ssh snmp
+        set type loopback
+        set description "LOOPBACK1111"
+        set snmp-index 126
+    next
+    edit "MgtVPN-Nomi-Ph1"
+        set vdom "root"
+        set type tunnel
+        set description "MGT_GW_NOMINAL"
+        set snmp-index 127
+        set interface "ivl11"
+    next
+    edit "MgtVPN-Back-Ph1"
+        set vdom "root"
+        set type tunnel
+        set description "MGT_GW_BACKUP"
+        set snmp-index 128
+        set interface "ivl21"
+    next
+    edit "sgwn_inet2"
+        set vdom "VDOM-CUST"
+        set allowaccess ping
+        set type tunnel
+        set description " SGW_NOMINAL_INET2"
+        set snmp-index 129
+        set interface "sw_inet2"
+    next
+    edit "sgwn_inet1"
+        set vdom "VDOM-CUST"
+        set allowaccess ping
+        set type tunnel
+        set description " SGW_NOMINAL_INET1"
+        set snmp-index 130
+        set interface "sw_inet1"
+    next
+    edit "sgwb_inet2"
+        set vdom "VDOM-CUST"
+        set allowaccess ping
+        set type tunnel
+        set description " SGW_BACKUP_INET2"
+        set snmp-index 131
+        set interface "sw_inet2"
+    next
+    edit "sgwb_inet1"
+        set vdom "VDOM-CUST"
+        set allowaccess ping
+        set type tunnel
+        set description " SGW_BACKUP_INET1"
+        set snmp-index 132
+        set interface "sw_inet1"
+    next
+    edit "loopback_cust"
+        set vdom "VDOM-CUST"
+        set ip 192.168.255.98 255.255.255.255
+        set allowaccess ping
+        set type loopback
+        set role lan
+        set snmp-index 133
+    next
+end
+
+PVAR040 (global) $
+PVAR040 (global) $
+PVAR040 (global) $ get system performance status
+CPU states: 0% user 0% system 0% nice 100% idle 0% iowait 0% irq 0% softirq
+CPU0 states: 0% user 0% system 0% nice 100% idle 0% iowait 0% irq 0% softirq
+CPU1 states: 0% user 0% system 0% nice 100% idle 0% iowait 0% irq 0% softirq
+CPU2 states: 0% user 0% system 0% nice 100% idle 0% iowait 0% irq 0% softirq
+CPU3 states: 0% user 1% system 0% nice 99% idle 0% iowait 0% irq 0% softirq
+CPU4 states: 0% user 0% system 0% nice 100% idle 0% iowait 0% irq 0% softirq
+CPU5 states: 0% user 0% system 0% nice 100% idle 0% iowait 0% irq 0% softirq
+CPU6 states: 0% user 0% system 0% nice 100% idle 0% iowait 0% irq 0% softirq
+CPU7 states: 7% user 2% system 0% nice 91% idle 0% iowait 0% irq 0% softirq
+Memory: 1964820k total, 1043320k used (53.1%), 587628k free (29.9%), 333872k freeable (17.0%)
+Average network usage: 2048 / 2239 kbps in 1 minute, 1694 / 1901 kbps in 10 minutes, 1924 / 2121 kbps in 30 minutes
+Average sessions: 459 sessions in 1 minute, 449 sessions in 10 minutes, 449 sessions in 30 minutes
+Average session setup rate: 5 sessions per second in last 1 minute, 6 sessions per second in last 10 minutes, 6 sessions per second in last 30 minutes
+Average NPU sessions: 118 sessions in last 1 minute, 116 sessions in last 10 minutes, 116 sessions in last 30 minutes
+Average nTurbo sessions: 4 sessions in last 1 minute, 4 sessions in last 10 minutes, 4 sessions in last 30 minutes
+Virus caught: 0 total in 1 minute
+IPS attacks blocked: 0 total in 1 minute
+
+
+
+###########################################################################
+##########                         ROOT VDOM              ##########
+###########################################################################
+
+
+
+###################### Managment IP sec tunnels############################
+get vpn ipsec tunnel summary
+'MgtVPN-Back-Ph1' 10.22.27.70:4500  selectors(total,up): 1/1  rx(pkt,err): 0/0  tx(pkt,err): 0/0
+diagnose vpn tunnel list
+list all ipsec tunnel in vd 0
+------------------------------------------------------
+name=MgtVPN-Back-Ph1 ver=2 serial=2 169.254.254.5:4500->10.66.27.70:4500 dst_mtu=1500
+bound_if=25 lgwy=static/1 tun=intf/0 mode=auto/1 encap=none options[0218]=npu create_dev frag-rfc  accept_traffic=1 overlay_id=2
+
+proxyid_num=1 child_num=0 refcnt=10 ilast=12 olast=12 ad=/0
+stat: rxp=0 txp=0 rxb=0 txb=0
+dpd: mode=on-idle on=1 idle=20000ms retry=3 count=0 seqno=164985
+natt: mode=keepalive draft=0 interval=10 remote_port=4500
+proxyid=MgtVPN-Back-Ph2 proto=0 sa=1 ref=2 serial=1 auto-negotiate
+  src: 0:10.22.131.13/255.255.255.255:0
+  dst: 0:198.20.37.0/255.255.255.0:0 0:198.20.38.0/255.255.255.0:0 0:10.7.0.0/255.255.0.0:0
+  SA:  ref=3 options=18227 type=00 soft=0 mtu=1438 expire=219/0B replaywin=2048
+       seqno=1 esn=0 replaywin_lastseq=00000000 itn=0 qat=0 hash_search_len=1
+  life: type=01 bytes=0/0 timeout=1768/1800
+  dec: spi=0d5b3833 esp=aes-gcm key=36 d821d1c0b65695050a53c9e4d2dd8a4257fde8534d59f6def8a72e9c357241daead3301c
+       ah=null key=0
+  enc: spi=10bf6be3 esp=aes-gcm key=36 867cc4010fcf4e3c89a71d7818ff11a375ff610a9cfdfad8be90e495dd07509b1db2b1cb
+       ah=null key=0
+  dec:pkts/bytes=0/0, enc:pkts/bytes=0/0
+  npu_flag=00 npu_rgwy=10.66.27.70 npu_lgwy=169.254.254.5 npu_selid=0 dec_npuid=0 enc_npuid=0
+------------------------------------------------------
+name=MgtVPN-Nomi-Ph1 ver=2 serial=1 169.254.254.3:4500->10.66.196.97:4500 dst_mtu=1500
+bound_if=23 lgwy=static/1 tun=intf/0 mode=auto/1 encap=none options[0218]=npu create_dev frag-rfc  accept_traffic=1 overlay_id=1
+
+proxyid_num=1 child_num=0 refcnt=19 ilast=0 olast=0 ad=/0
+stat: rxp=32726 txp=23510863 rxb=13321056 txb=15521701315
+dpd: mode=on-idle on=1 idle=20000ms retry=3 count=0 seqno=155057
+natt: mode=keepalive draft=0 interval=10 remote_port=4500
+proxyid=MgtVPN-Nomi-Ph2 proto=0 sa=1 ref=5 serial=1 auto-negotiate
+  src: 0:10.22.131.13/255.255.255.255:0
+  dst: 0:198.20.37.0/255.255.255.0:0 0:198.20.38.0/255.255.255.0:0 0:10.7.0.0/255.255.0.0:0
+  SA:  ref=3 options=18227 type=00 soft=0 mtu=1438 expire=1565/0B replaywin=2048
+       seqno=b2b esn=0 replaywin_lastseq=000001dd itn=0 qat=0 hash_search_len=1
+  life: type=01 bytes=0/0 timeout=1768/1800
+  dec: spi=0d5b3834 esp=aes-gcm key=36 bf0829283eef6895ee3ba437093ae781ba9471e1c556e3a8ba7ae9e09d03118abda78dcc
+       ah=null key=0
+  enc: spi=14a1fb9f esp=aes-gcm key=36 8cf035c19d3275be3406daea7d152cfc36b535ad6b0b80ed4e4df2a844ea0a284d998376
+       ah=null key=0
+  dec:pkts/bytes=476/24811, enc:pkts/bytes=2858/1844964
+show vpn ipsec phase1-interface sgwn_inet1
+show vpn ipsec phase1-interface sgwn_inet2
+################################ STATIC ROUTING INFO ############################
+
+
+
+
+############################# ALL  ROUTING TABLE #######################################
+Routing table for VRF=0
+S*      0.0.0.0/0 [10/0] via 169.254.254.6, ivl31
+S       8.8.8.8/32 [10/0] via 169.254.254.2, ivl11
+S       10.7.0.0/16 [10/0] is directly connected, MgtVPN-Nomi-Ph1
+S       10.66.27.70/32 [10/0] via 169.254.254.4, ivl21
+S       10.66.196.97/32 [10/0] via 169.254.254.2, ivl11
+S       10.67.56.85/32 [10/0] via 169.254.254.2, ivl11
+S       198.20.37.0/24 [10/0] is directly connected, MgtVPN-Nomi-Ph1
+S       198.20.38.0/24 [10/0] is directly connected, MgtVPN-Nomi-Ph1
+
+
+PVAR040 (root) $ get router info routing-table all
+Codes: K - kernel, C - connected, S - static, R - RIP, B - BGP
+       O - OSPF, IA - OSPF inter area
+       N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+       E1 - OSPF external type 1, E2 - OSPF external type 2
+       i - IS-IS, L1 - IS-IS level-1, L2 - IS-IS level-2, ia - IS-IS inter area
+       V - BGP VPNv4
+       * - candidate default
+
+Routing table for VRF=0
+S*      0.0.0.0/0 [10/0] via 169.254.254.6, ivl31
+S       8.8.8.8/32 [10/0] via 169.254.254.2, ivl11
+C       10.231.131.13/32 is directly connected, loopback1111
+S       10.7.0.0/16 [10/0] is directly connected, MgtVPN-Nomi-Ph1
+S       10.66.27.70/32 [10/0] via 169.254.254.4, ivl21
+S       10.66.196.97/32 [10/0] via 169.254.254.2, ivl11
+S       10.67.56.85/32 [10/0] via 169.254.254.2, ivl11
+C       169.254.254.2/31 is directly connected, ivl11
+C       169.254.254.4/31 is directly connected, ivl21
+C       169.254.254.6/31 is directly connected, ivl31
+S       198.20.37.0/24 [10/0] is directly connected, MgtVPN-Nomi-Ph1
+S       198.20.38.0/24 [10/0] is directly connected, MgtVPN-Nomi-Ph1
+
+PVAR040 (root) $
+get router info routing-table details 10.66.27.70
+
+Routing table for VRF=0
+Routing entry for 10.66.27.70/32
+  Known via "static", distance 10, metric 0, best
+  * vrf 0 169.254.254.4, via ivl21 distance 0
+
+
+################################ LINK Monitoring status ############################
+
+how system link-monitor
+config system link-monitor
+    edit "Link-Monitor-FMG1"
+        set srcintf "ivl11"
+        set server "8.8.8.8"
+        set gateway-ip 169.254.254.2
+        set interval 60000
+    next
+end
+
+PVAR040 (root) $ diagnose sys link-monitor status
+
+Link Monitor: Link-Monitor-FMG1, Status: alive, Server num(1), Flags=0x1 init, Create time: Thu Mar 28 09:16:14 2024
+Source interface: ivl11 (23)
+VRF: 0
+Gateway: 169.254.254.2
+Interval: 60000 ms
+  Peer: 8.8.8.8(8.8.8.8)
+        Source IP(169.254.254.3)
+        Route: 169.254.254.3->8.8.8.8/32, gwy(169.254.254.2)
+        protocol: ping, state: alive
+                Latency(Min/Max/Avg): 21.173/27.800/23.618 ms
+                Jitter(Min/Max/Avg): 0.084/6.356/2.527
+                Packet lost: 0.000%
+                Number of out-of-sequence packets: 0
+                Fail Times(0/5)
+                Packet sent: 55120, received: 55060, Sequence(sent/rcvd/exp): 55121/55121/55122
+
+
+
+
+############################# FW POLICY #######################################
+show firewall policy
+config firewall policy
+    edit 1
+        set name "|Nominal-Management-Flow"
+        set uuid 3c29f37c-1b2e-51ee-10aa-1a3af971d095
+        set srcintf "MgtVPN-Nomi-Ph1"
+        set dstintf "loopback1111"
+        set srcaddr "g-MSZ"
+        set dstaddr "Mgt-Loopback1111"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set logtraffic disable
+    next
+    edit 2
+        set name "|Backup-Management-Flow"
+        set uuid 3c4c80d6-1b2e-51ee-d27f-913453e3e18d
+        set srcintf "MgtVPN-Back-Ph1"
+        set dstintf "loopback1111"
+        set srcaddr "g-MSZ"
+        set dstaddr "Mgt-Loopback1111"
+        set action accept
+        set schedule "always"
+        set service "ALL"
+        set logtraffic disable
+    next
+    edit 3
+        set name "Deny-All"
+        set uuid 3c6f1cf4-1b2e-51ee-9bc3-111fd8605e5d
+        set srcintf "any"
+        set dstintf "any"
+        set srcaddr "all"
+        set dstaddr "all"
+        set schedule "always"
+        set service "ALL"
+        set logtraffic disable
+    next
+end
+
+
+
+############################# FW Group and Objects #######################################
+show firewall addrgrp
+config firewall addrgrp
+    edit "g-MSZ"
+        set uuid 3946624e-1b2e-51ee-f03d-49b94c39a848
+        set member "MSZ1" "MSZ2" "MSZ3"
+        set color 1
+        set allow-routing enable
+    next
+end
+
+show firewall address
+config firewall address
+    edit "all"
+        set uuid 9ea84506-1a7c-51ee-6616-8d727340be9b
+    next
+    edit "FIREWALL_AUTH_PORTAL_ADDRESS"
+        set uuid 99817142-7fa8-51ee-3b5b-629cb3162b67
+    next
+    edit "FABRIC_DEVICE"
+        set uuid 99817958-7fa8-51ee-6d2a-27dfb6a69065
+        set comment "IPv4 addresses of Fabric Devices."
+    next
+    edit "SSLVPN_TUNNEL_ADDR1"
+        set uuid 9984a7a4-7fa8-51ee-d07b-bde15c78e86d
+        set type iprange
+        set associated-interface "ssl.root"
+        set start-ip 10.212.134.200
+        set end-ip 10.212.134.210
+    next
+    edit "MSZ1"
+        set uuid 38a05070-1b2e-51ee-edfc-3fa2ecaaf5bf
+        set allow-routing enable
+        set subnet 198.20.37.0 255.255.255.0
+    next
+    edit "MSZ2"
+        set uuid 38c498b8-1b2e-51ee-77f2-34510ac2e6ed
+        set allow-routing enable
+        set subnet 198.20.38.0 255.255.255.0
+    next
+    edit "MSZ3"
+        set uuid 38e51eb2-1b2e-51ee-baeb-da6fae0d1358
+        set allow-routing enable
+        set subnet 10.7.0.0 255.255.0.0
+    next
+    edit "Mgt-Loopback1111"
+        set uuid b163b710-879c-51ee-50b1-72a079600d68
+        set allow-routing enable
+        set subnet 10.231.131.13 255.255.255.255
+    next
+    edit "MgtGW-Backup_Loopback"
+        set uuid ada4317c-879c-51ee-afcc-41007c2106cc
+        set allow-routing enable
+        set subnet 10.66.27.70 255.255.255.255
+    next
+    edit "MgtGW-Nominal_Loopback"
+        set uuid aa9fd076-879c-51ee-20bc-77c21b0494d7
+        set allow-routing enable
+        set subnet 10.66.196.97 255.255.255.255
+    next
+    edit "FCTEMS_ALL_FORTICLOUD_SERVERS"
+        set uuid 0f32319e-879f-51ee-fb16-343e237b7f0e
+        set type dynamic
+        set sub-type ems-tag
+    next
+end
+
+
+
+
+###########################################################################
+##########                         CUST VDOM              ##########
+###########################################################################
+
+
+
+###################### SERVICE IP sec tunnels############################
+get vpn ipsec tunnel summary
+'sgwn_inet2' 10.66.196.166:0  selectors(total,up): 1/1  rx(pkt,err): 9084494/0  tx(pkt,err): 27386430/0
+'sgwb_inet1' 10.79.1.3:4500  selectors(total,up): 1/1  rx(pkt,err): 1/0  tx(pkt,err): 509098/0
+'sgwb_inet2' 10.79.1.3:0  selectors(total,up): 1/1  rx(pkt,err): 43203/0  tx(pkt,err): 20792836/0
+diagnose vpn tunnel list
+list all ipsec tunnel in vd 1
+------------------------------------------------------
+name=sgwn_inet2 ver=2 serial=3 217.145.86.73:0->10.66.196.166:0 dst_mtu=1500
+bound_if=31 lgwy=static/1 tun=intf/0 mode=auto/1 encap=none options[0208]=npu frag-rfc  run_state=0 accept_traffic=1 overlay_id=12
+
+proxyid_num=1 child_num=0 refcnt=177 ilast=0 olast=0 ad=/0
+stat: rxp=9084494 txp=27386445 rxb=2106132962 txb=14549852750
+dpd: mode=on-demand on=1 idle=20000ms retry=3 count=0 seqno=2
+natt: mode=none draft=0 interval=0 remote_port=0
+proxyid=sgwn_inet2 proto=0 sa=1 ref=194 serial=1 auto-negotiate
+  src: 0:0.0.0.0/0.0.0.0:0
+  dst: 0:0.0.0.0/0.0.0.0:0
+  SA:  ref=6 options=18227 type=00 soft=0 mtu=1446 expire=19670/0B replaywin=2048
+       seqno=58285 esn=0 replaywin_lastseq=00000000 itn=0 qat=0 hash_search_len=1
+  life: type=01 bytes=0/0 timeout=42901/43200
+  dec: spi=dfc1bfa2 esp=aes-gcm key=36 cd4d3dc0bf21b3aac99e26d2c7778b34e8bb0b01249bf94a79a29d3ac3832608166b5089
+       ah=null key=0
+  enc: spi=7f4fa419 esp=aes-gcm key=36 8b5a6d823030eb541552f85d1f47b57c36148ac3987c7cb488243fe50f957d5cd5486a37
+       ah=null key=0
+  dec:pkts/bytes=0/0, enc:pkts/bytes=361088/54303032
+  npu_flag=03 npu_rgwy=10.66.196.166 npu_lgwy=217.145.86.73 npu_selid=5 dec_npuid=1 enc_npuid=1
+run_tally=1
+------------------------------------------------------
+name=sgwb_inet1 ver=2 serial=6 192.168.1.2:4500->10.79.1.3:4500 dst_mtu=1500
+bound_if=32 lgwy=static/1 tun=intf/0 mode=auto/1 encap=none options[0208]=npu frag-rfc  run_state=0 accept_traffic=1 overlay_id=11
+
+proxyid_num=1 child_num=0 refcnt=20 ilast=0 olast=0 ad=/0
+stat: rxp=1 txp=509104 rxb=104 txb=21169658
+dpd: mode=on-demand on=1 idle=20000ms retry=3 count=0 seqno=30
+natt: mode=keepalive draft=0 interval=10 remote_port=4500
+proxyid=sgwb_inet1 proto=0 sa=1 ref=52 serial=1 auto-negotiate
+  src: 0:0.0.0.0/0.0.0.0:0
+  dst: 0:0.0.0.0/0.0.0.0:0
+  SA:  ref=6 options=18227 type=00 soft=0 mtu=1438 expire=4693/0B replaywin=2048
+       seqno=3a745 esn=0 replaywin_lastseq=00000000 itn=0 qat=0 hash_search_len=1
+  life: type=01 bytes=0/0 timeout=42900/43200
+  dec: spi=dfc1bf9d esp=aes-gcm key=36 e705b16d1350a9fa47813feee2dc40e45ebf749cb31905b8c43dcbb85a95eea3ea32d84b
+       ah=null key=0
+  enc: spi=cb83013b esp=aes-gcm key=36 28aaae80a4f755fad6f3dcb2ee03aef077ff2bb49d845598128d250edca657eb7524c53a
+       ah=null key=0
+  dec:pkts/bytes=0/0, enc:pkts/bytes=239428/25287360
+  npu_flag=03 npu_rgwy=10.79.1.3 npu_lgwy=192.168.1.2 npu_selid=2 dec_npuid=1 enc_npuid=1
+run_tally=1
+------------------------------------------------------
+name=sgwb_inet2 ver=2 serial=5 217.145.86.73:0->10.79.1.3:0 dst_mtu=1500
+bound_if=31 lgwy=static/1 tun=intf/0 mode=auto/1 encap=none options[0208]=npu frag-rfc  run_state=0 accept_traffic=1 overlay_id=12
+
+proxyid_num=1 child_num=0 refcnt=20 ilast=0 olast=0 ad=/0
+stat: rxp=43203 txp=20792842 rxb=4963964 txb=865483515
+dpd: mode=on-demand on=1 idle=20000ms retry=3 count=0 seqno=0
+natt: mode=none draft=0 interval=0 remote_port=0
+proxyid=sgwb_inet2 proto=0 sa=1 ref=52 serial=1 auto-negotiate
+  src: 0:0.0.0.0/0.0.0.0:0
+  dst: 0:0.0.0.0/0.0.0.0:0
+  SA:  ref=6 options=18227 type=00 soft=0 mtu=1446 expire=6681/0B replaywin=2048
+       seqno=3765c esn=0 replaywin_lastseq=00000000 itn=0 qat=0 hash_search_len=1
+  life: type=01 bytes=0/0 timeout=42899/43200
+  dec: spi=dfc1bf9f esp=aes-gcm key=36 1e3d5152623f5d7dd721c1d42e78abadf10161f111471bb825a3e26d651865c5b8350387
+       ah=null key=0
+  enc: spi=cb83013e esp=aes-gcm key=36 cbb14afdea1f2cec2a661a9d9c0ac3d16c39df83eafaef8ed0d24898038aed5de8f09420
+       ah=null key=0
+  dec:pkts/bytes=0/0, enc:pkts/bytes=226907/22149152
+  npu_flag=03 npu_rgwy=10.79.1.3 npu_lgwy=217.145.86.73 npu_selid=3 dec_npuid=1 enc_npuid=1
+run_tally=1
+------------------------------------------------------
+name=sgwn_inet1 ver=2 serial=4 192.168.1.2:4500->10.66.196.166:4500 dst_mtu=1500
+bound_if=32 lgwy=static/1 tun=intf/0 mode=auto/1 encap=none options[0208]=npu frag-rfc  run_state=0 accept_traffic=1 overlay_id=11
+
+proxyid_num=1 child_num=0 refcnt=98 ilast=0 olast=0 ad=/0
+stat: rxp=1824445 txp=14559748 rxb=743840674 txb=2067600836
+dpd: mode=on-demand on=1 idle=20000ms retry=3 count=0 seqno=32
+natt: mode=keepalive draft=0 interval=10 remote_port=4500
+proxyid=sgwn_inet1 proto=0 sa=1 ref=110 serial=1 auto-negotiate
+  src: 0:0.0.0.0/0.0.0.0:0
+  dst: 0:0.0.0.0/0.0.0.0:0
+  SA:  ref=6 options=18227 type=00 soft=0 mtu=1438 expire=19670/0B replaywin=2048
+       seqno=4d54e esn=0 replaywin_lastseq=00000000 itn=0 qat=0 hash_search_len=1
+  life: type=01 bytes=0/0 timeout=42901/43200
+  dec: spi=dfc1bfa3 esp=aes-gcm key=36 1f7432e0dd65235c19741cb148963162f9b5e10994144149ab002bc0edd43220fc247736
+       ah=null key=0
+  enc: spi=7f4fa41c esp=aes-gcm key=36 247d4a231c6cce25372e6c434850466ce57e4cc9eefb7d22912a0d162c53c3b685ba8b0e
+       ah=null key=0
+  dec:pkts/bytes=0/0, enc:pkts/bytes=316745/41246040
+  npu_flag=03 npu_rgwy=10.66.196.166 npu_lgwy=192.168.1.2 npu_selid=4 dec_npuid=1 enc_npuid=1
+show vpn ipsec phase1-interface sgwn_inet1
+config vpn ipsec phase1-interface
+    edit "sgwn_inet1"
+        set interface "sw_inet1"
+        set ike-version 2
+        set authmethod signature
+        set net-device disable
+        set mode-cfg enable
+        set proposal aes256-sha256
+        set add-route disable
+        set dhgrp 19 21
+        set reauth enable
+        set network-overlay enable
+        set network-id 11
+        set remote-gw 10.66.196.166
+        set certificate "Certoverlay"
+        set peer "userpeer-ovl-tunnels"
+    next
+show vpn ipsec phase1-interface sgwn_inet2
+config vpn ipsec phase1-interface
+    edit "sgwn_inet2"
+        set interface "sw_inet2"
+        set ike-version 2
+        set authmethod signature
+        set net-device disable
+        set mode-cfg enable
+        set proposal aes256-sha256
+        set add-route disable
+        set dhgrp 19 21
+        set reauth enable
+        set network-overlay enable
+        set network-id 12
+        set remote-gw 10.66.196.166
+        set certificate "Certoverlay"
+        set peer "userpeer-ovl-tunnels"
+    next
+################################ STATIC ROUTING INFO ############################
+get router info routing-table static
+Routing table for VRF=0
+S*      0.0.0.0/0 [10/0] via 192.168.1.1, sw_inet1
+                  [10/0] via 217.145.86.254, sw_inet2
+S       10.70.48.253/32 [10/0] is directly connected, sgwn_inet1
+                        [10/0] is directly connected, sgwn_inet2
+S       10.66.196.166/32 [10/0] via 192.168.1.1, sw_inet1
+                         [10/0] via 217.145.86.254, sw_inet2
+S       10.79.1.3/32 [10/0] via 192.168.1.1, sw_inet1
+                     [10/0] via 217.145.86.254, sw_inet2
+
+
+
+############################# BGP ROUTING  #######################################
+get router info bgp summary
+VRF 0 BGP router identifier 198.18.32.4, local AS number 65101
+BGP table version is 98
+25 BGP AS-PATH entries
+26 BGP community entries
+
+Neighbor        V         AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+192.168.201.126 4      65101  776606  751440       96    0    0 2d12h37m      832
+192.168.201.254 4      65101  776683  751560       97    0    0 22:31:42      829
+192.168.202.126 4      65101  773534  751739       82    0    0 01w4d05h      832
+192.168.202.254 4      65101  773733  752033       65    0    0 02w5d14h      829
+
+Total number of neighbors 4
+
+get router info bgp neighbors 192.168.201.126 advertised-routes
+VRF 0 BGP table version is 98, local router ID is 198.18.32.4
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight RouteTag Path
+*>i10.241.8.0/24    192.168.201.1                 100  32768        0 i <0/->
+*>i192.168.255.98/32
+                    192.168.201.1                 100  32768        0 i <0/->
+
+Total number of prefixes 2
+get router info bgp neighbors 192.168.201.254 advertised-routes
+VRF 0 BGP table version is 98, local router ID is 198.18.32.4
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+   Network          Next Hop            Metric LocPrf Weight RouteTag Path
+*>i10.241.8.0/24    192.168.201.143               100  32768        0 i <0/->
+*>i192.168.255.98/32
+                    192.168.201.143               100  32768        0 i <0/->
+
+Total number of prefixes 2
+
+
+
+############################# ALL  ROUTING TABLE #######################################
+get router info routing-table details 192.168.201.126
+
+Routing table for VRF=0
+Routing entry for 192.168.201.0/25
+  Known via "bgp", distance 200, metric 0
+  Last update 2d12h37m ago
+    vrf 0 192.168.201.126 inactive (recursive is directly connected, sgwn_inet1) distance 0/0
+    vrf 0 192.168.202.126 (recursive is directly connected, sgwn_inet2) distance 0/0
+Routing entry for 192.168.201.0/25
+  Known via "connected", distance 0, metric 0, best
+  * is directly connected, sgwn_inet1 distance 0
+
+################################ LINK Monitoring status ############################
+show system link-monitor
+config system link-monitor
+diagnose sys link-monitor status
+
+
+
+
+############################# FW POLICY #######################################
+#Name                    / SRC INT  /  DEST INT /            SRC ADD / DEST ADD               / ACTION        / SERVICES
+1   |FMG-Nominal-Flow   / ivl10   / underlay-inet1   / ivl11_IP   / FMG1   / accept   / FGFM   FortiGuard   diffserv-forward
+2   |FMG-Backup-Flow   / ivl20   / underlay-inet2   / ivl21_IP   / FMG1   / accept   / FGFM   FortiGuard   diffserv-forward
+3   |FMG-Probing   / ivl10   / underlay-inet1   / ivl11_IP   / Probe_EMS_connectivity   / accept   / PING   diffserv-forward
+4   / ivl10   / underlay-inet1   / ivl11_IP   / MgtGW-Nominal_Loopback   / accept   / IKE   diffserv-forward
+5   / ivl20   / underlay-inet2   / ivl21_IP   / MgtGW-Backup_Loopback   / accept   / IKE   diffserv-forward
+10   |Fortiguard-DBO-Overlays   / ivl30   / overlay-sgwn_inet1   overlay-sgwb_inet1   overlay-sgwn_inet2   overlay-sgwb_inet2   / ivl31_IP   / all   / accept   / FortiGuard   s-FortiSandboxCloud   diffserv-forward
+11   |Fortiguard-LBO-WAN1   / ivl30   / underlay-inet1   / ivl31_IP   / all   / accept   / FortiGuard   s-FortiSandboxCloud   diffserv-forward
+12   |Fortiguard-LBO-WAN2   / ivl30   / underlay-inet2   / ivl31_IP   / all   / accept   / FortiGuard   s-FortiSandboxCloud   diffserv-forward
+21   |Hardening-From-ivl10   / ivl10   / any   / all   / all   / ALL
+22   |Hardening-To-ivl10   / any   / ivl10   / all   / all   / ALL
+23   |Hardening-From-ivl20   / ivl20   / any   / all   / all   / ALL
+24   |Hardening-To-ivl20   / any   / ivl20   / all   / all   / ALL
+25   |Hardening-From-ivl30   / ivl30   / any   / all   / all   / ALL
+26   |Hardening-To-ivl30   / any   / ivl30   / all   / all   / ALL
+27   / loopback_cust   / overlay-sgwb_inet1   overlay-sgwb_inet2   overlay-sgwn_inet1   overlay-sgwn_inet2   / loopback-cust   / all   / accept   / ALL_ICMP   LDAP   LDAP_UDP   s-8000   s-8000-udp
+28   / overlay-sgwb_inet1   overlay-sgwb_inet2   overlay-sgwn_inet1   overlay-sgwn_inet2   / loopback_cust   / all   / loopback-cust   / accept   / ALL_ICMP   LDAP   LDAP_UDP   s-8000   s-8000-udp
+29   / wan2   / overlay-sgwb_inet1   overlay-sgwb_inet2   overlay-sgwn_inet1   overlay-sgwn_inet2   / all   / CUST_Corp_DMZ   CUST_Nets   / accept   / ALL
+
+30   / wan2   / overlay-sgwb_inet1   overlay-sgwb_inet2   overlay-sgwn_inet1   overlay-sgwn_inet2   / all   / CUST_Azure   CUST_Oracle   n-172.16.0.0/16   / accept   / ALL
+31   / overlay-sgwb_inet1   overlay-sgwb_inet2   overlay-sgwn_inet1   overlay-sgwn_inet2   / wan2   / CUST_Corp_DMZ   CUST_Nets   / all   / accept   / ALL
+
+32   / overlay-sgwb_inet1   overlay-sgwb_inet2   overlay-sgwn_inet1   overlay-sgwn_inet2   / wan2   / CUST_Azure   CUST_Oracle   n-172.16.0.0/16   / all   / accept   / ALL
+50   / wan2   / wan2   / all   / all   / accept   / ALL
+53   https://globalive.CUST.com   / wan2   / underlay-inet1   underlay-inet2   / all   / FQDN-cdn.embedly.com   / accept   / HTTPS   comments
+33   / wan2   / underlay-inet1   underlay-inet2   / all   internet-service   internet-service-name   Microsoft-Azure   Microsoft-Office365   Microsoft-Outlook   Microsoft-Skype_Teams   / accept
+52   BG_RadioTV_News   / wan2   / underlay-inet1   underlay-inet2   / all   / FQDN-bnr.bg   / accept   / HTTPS   comments   XIP202403-06028   ||   MAbozaid
+
+34   FSSO_FULLAUTHORITY   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+35   FSSO_VIP   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+36   FSSO_SocialMedia   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+37   FSSO_IT   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+38   FSSO_Authorized   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+39   FSSO_Base   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL   ntlm
+40   FSSO_Light   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+41   FSSO_Standart   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+42   LDAP_Authorized   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+43   LDAP_FULLAUTHORITY   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+44   LDAP_VIP   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL   G
+45   LDAP_SocialMedia   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+46   LDAP_IT   / wan2   / underlay-inet1   underlay-inet2   / all   / all   ce   ALL   GR
+47   LDAP_Base   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+48   LDAP_Light   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+49   LDAP_Standart   / wan2   / underlay-inet1   underlay-inet2   / all   / all   / accept   / ALL
+51   / underlay-inet2   / wan2   / all   / R-Access-1   R-Access-2   R-Access-3   R-Access-4   R-Access-5   / accept   / Varna-services-pool   PVAR040   PVAR040   PVAR040
+
+
+
+################################ SYSTEM PERFORMANCE ###########################################
+get system performance status
+
+
+
+
+############################# FW Group and Objects #######################################
+show firewall addrgrp | grep -v uuid
+config firewall addrgrp
+    Name "g-SGW_HealthCheck"
+         member "Loopback_D1"
+         color 1
+         allow-routing enable
+    --------------------------------------------
+    Name "CUST_Nets"
+         member "Net_10.0.0.0/8" "Net_192.168.0.0/16"
+    --------------------------------------------
+    Name "CUST_Azure"
+         member "Net_172.28.0.0/16" "Net_172.29.0.0/16" "Net_172.30.0.0/16" "Net_172.31.0.0/16"
+    --------------------------------------------
+    Name "CUST_Oracle"
+         member "Net_172.27.0.0/16" "Net_172.26.0.0/16"
+    --------------------------------------------
+    Name "CUST_Corp_DMZ"
+         member "Net_194.0.130.128/27" "Net_194.0.130.32/27"
+    --------------------------------------------
+    Name "g-Redirect-inet1"
+         member "FQDN-nbg.gr" "FQDN-eurobank.gr" "FQDN-Alpha.gr" "FQDN-CUST-hellas.gr" "h-cpanel.CUST-hellas.gr" "FQDN-aegean-container.gr" "FQDN-cpanel.aegean-container.gr" "FQDN-tarros-hellas.gr" "FQDN-cpanel.tarros-hellas.gr" "h-*.gsis.gr" "h-*.gov.gr" "h-*.aade.gr"
+    --------------------------------------------
+end
+show firewall address | grep -v uuid
+config firewall address
+    Name "all"
+    --------------------------------------------
+    Name "FIREWALL_AUTH_PORTAL_ADDRESS"
+    --------------------------------------------
+    Name "FABRIC_DEVICE"
+         comment "IPv4 addresses of Fabric Devices."
+    --------------------------------------------
+    Name "SSLVPN_TUNNEL_ADDR1"
+         type iprange
+         associated-interface "ssl.VDOM-CUST"
+         start-ip 10.212.134.200
+         end-ip 10.212.134.210
+    --------------------------------------------
+    Name "ivl11_IP"
+         allow-routing enable
+         subnet 169.254.254.3 255.255.255.255
+    --------------------------------------------
+    Name "ivl21_IP"
+         allow-routing enable
+         subnet 169.254.254.5 255.255.255.255
+    --------------------------------------------
+    Name "ivl31_IP"
+         allow-routing enable
+         subnet 169.254.254.7 255.255.255.255
+    --------------------------------------------
+    Name "FMG1"
+         allow-routing enable
+         subnet 10.67.56.85 255.255.255.255
+    --------------------------------------------
+    Name "Probe_EMS_connectivity"
+         allow-routing enable
+         subnet 8.8.8.8 255.255.255.255
+    --------------------------------------------
+    Name "FCTEMS_ALL_FORTICLOUD_SERVERS"
+         type dynamic
+         sub-type ems-tag
+    --------------------------------------------
+    Name "Loopback_D1"
+         color 1
+         allow-routing enable
+         subnet 10.70.48.253 255.255.255.255
+    --------------------------------------------
+    Name "MgtGW-Backup_Loopback"
+         allow-routing enable
+         subnet 10.66.27.70 255.255.255.255
+    --------------------------------------------
+    Name "MgtGW-Nominal_Loopback"
+         allow-routing enable
+         subnet 10.66.196.97 255.255.255.255
+    --------------------------------------------
+    Name "Net_10.0.0.0/8"
+         comment "CUST_HQ1"
+         subnet 10.0.0.0 255.0.0.0
+    --------------------------------------------
+    Name "Net_172.28.0.0/16"
+         comment "Azure_NE_1"
+         subnet 172.28.0.0 255.255.0.0
+    --------------------------------------------
+    Name "Net_172.29.0.0/16"
+         comment "Azure_NE_2"
+         subnet 172.29.0.0 255.255.0.0
+    --------------------------------------------
+    Name "Net_172.30.0.0/16"
+         comment "Azure_WE_1"
+         subnet 172.30.0.0 255.255.0.0
+    --------------------------------------------
+    Name "Net_172.31.0.0/16"
+         comment "Azure_WE_2"
+         subnet 172.31.0.0 255.255.0.0
+    --------------------------------------------
+    Name "Net_192.168.0.0/16"
+         comment "CUST_HQ2"
+         subnet 192.168.0.0 255.255.0.0
+    --------------------------------------------
+    Name "FQDN-stats.agepor.pt"
+         type fqdn
+         comment "test >>>>>2401X08016 >>> rahmed"
+         fqdn "stats.agepor.pt*"
+    --------------------------------------------
+    Name "Net_172.26.0.0/16"
+         comment "Oracle"
+         subnet 172.26.0.0 255.255.0.0
+    --------------------------------------------
+    Name "Net_172.27.0.0/16"
+         comment "Oracle"
+         subnet 172.27.0.0 255.255.0.0
+    --------------------------------------------
+    Name "loopback-cust"
+         subnet 192.168.255.98 255.255.255.255
+    --------------------------------------------
+    Name "n-172.16.0.0/16"
+         subnet 172.16.0.0 255.255.0.0
+    --------------------------------------------
+    Name "FQDN-license.qlikcloud.com"
+         type fqdn
+         fqdn "license.qlikcloud.com"
+    --------------------------------------------
+    Name "FQDN-cpanel.aegean-container.gr"
+         type fqdn
+    --------------------------------------------
+    Name "FQDN-cpanel.CUST-hellas.gr"
+    --------------------------------------------
+    Name "FQDN-cpanel.tarros-hellas.gr"
+         type fqdn
+    --------------------------------------------
+    Name "FQDN-webex.com"
+         type fqdn
+         fqdn 
+    --------------------------------------------
+    Name "fqdn-*.ariba.com"
+         type fqdn
+         fqdn 
+    --------------------------------------------
+    Name "FQDN-Alpha.gr"
+         type fqdn
+         fqdn 
+    --------------------------------------------
+    Name "FQDN-eurobank.gr"
+         type fqdn
+         fqdn 
+    --------------------------------------------
+    Name "FQDN-nbg.gr"
+         type fqdn
+         fqdn     
+    --------------------------------------------
+    Name "h-*.aade.gr"
+         type fqdn
+         fqdn
+    --------------------------------------------
+    Name "h-*.gov.gr"
+         type fqdn
+         fqdn 
+    --------------------------------------------
+    Name "h-*.gsis.gr"
+         type fqdn
+         fqdn 
+    --------------------------------------------
+    Name "h-cpanel.CUST-hellas.gr"
+         type fqdn
+
+    --------------------------------------------
+    Name "ariba"
+         comment "test_chnage "
+         subnet 
+    --------------------------------------------
+    Name "FQDN-bnr.bg"
+         type fqdn
+
+    --------------------------------------------
+    Name "FQDN-cdn.embedly.com"
+         type fqdn
+
+    --------------------------------------------
+end
+
+
+
+############################# POLICY Routing #######################################
+ show router policy
+config router policy
+    edit 1
+        set input-device "ivl10"
+        set dstaddr "FMG1" "Probe_connectivity" "MgtGW-Nominal_Loopback"
+        set output-device "sw_inet1"
+        set comments "try to stay on same overlay"
+    next
+    edit 2
+        set input-device "ivl20"
+        set dstaddr "FMG1" "MgtGW-Backup_Loopback"
+        set gateway 217.145.86.254
+        set output-device "sw_inet2"
+        set comments "try to stay on same overlay"
+    next
+end
+
+
+
+
+############################# SD WAN  #######################################
+ diagnose sys sdwan zone
+Zone overlay-sgwb_inet1 index=6
+         members(1): 38(sgwb_inet1)
+Zone overlay-sgwb_inet2 index=7
+         members(1): 37(sgwb_inet2)
+Zone overlay-sgwn_inet1 index=4
+         members(1): 36(sgwn_inet1)
+Zone overlay-sgwn_inet2 index=5
+         members(1): 35(sgwn_inet2)
+Zone underlay-inet1 index=2
+         members(1): 32(sw_inet1)
+Zone underlay-inet2 index=3
+         members(1): 31(sw_inet2)
+Zone virtual-wan-link index=1
+ diagnose sys sdwan member
+Member(1): interface: sw_inet1, gateway: 192.168.1.1, priority: 0, weight: 0
+Member(2): interface: sw_inet2, gateway: 217.145.86.254, priority: 0, weight: 0
+Member(3): interface: sgwn_inet1, gateway: 192.168.201.126, priority: 0, weight: 0
+Member(4): interface: sgwn_inet2, gateway: 192.168.202.126, priority: 0, weight: 0
+Member(5): interface: sgwb_inet1, gateway: 192.168.201.254, priority: 0, weight: 0
+ diagnose sys sdwan health-check
+Health Check(HC_SGW_D1):
+Seq(3 sgwn_inet1): state(alive), packet-loss(0.000%) latency(68.029), jitter(19.180) sla_map=0x3
+Seq(4 sgwn_inet2): state(alive), packet-loss(8.000%) latency(37.878), jitter(7.500) sla_map=0x0
+Seq(5 sgwb_inet1): state(alive), packet-loss(0.000%) latency(68.595), jitter(19.004) sla_map=0x3
+Seq(6 sgwb_inet2): state(alive), packet-loss(0.000%) latency(52.592), jitter(0.140) sla_map=0x3
+Health Check(HC_SGW_RTVI):
+Seq(3 sgwn_inet1): state(dead), packet-loss(100.000%) sla_map=0x0
+Seq(4 sgwn_inet2): state(dead), packet-loss(100.000%) sla_map=0x0
+Seq(5 sgwb_inet1): state(dead), packet-loss(100.000%) sla_map=0x0
+Seq(6 sgwb_inet2): state(dead), packet-loss(100.000%) sla_map=0x0
+Health Check(HC_SGW_RTVO):
+Seq(3 sgwn_inet1): state(dead), packet-loss(100.000%) sla_map=0x0
+Seq(4 sgwn_inet2): state(dead), packet-loss(100.000%) sla_map=0x0
+Seq(5 sgwb_inet1): state(dead), packet-loss(100.000%) sla_map=0x0
+Seq(6 sgwb_inet2): state(dead), packet-loss(100.000%) sla_map=0x0
+Health Check(Ping_Public_DNS2):
+Seq(1 sw_inet1): state(alive), packet-loss(0.000%) latency(22.990), jitter(2.539) sla_map=0x3
+RULES :
+ config service
+        edit 1
+            set name "Corporate_Intranet_Traffic"
+            set mode priority
+            set dst "CUST_Nets"
+            set src "all"
+            set health-check "HC_SGW_D1"
+            set priority-members 3 4 5 6
+        next
+        edit 2
+            set name "Azure_Traffic"
+            set mode priority
+            set dst "CUST_Azure" "n-172.16.0.0/16" "CUST_Oracle"
+            set src "all"
+            set health-check "HC_SGW_D1"
+            set priority-members 3 4 5 6
+        next
+        edit 3
+            set name "Corporate_Voice_Traffic"
+            set mode priority
+            set protocol 17
+            set start-port 16384
+            set end-port 32767
+            set dst "CUST_Nets" "n-172.16.0.0/16" "CUST_Oracle"
+            set src "all"
+            set health-check "HC_SGW_D1"
+            set link-cost-factor jitter
+            set priority-members 3 4 5 6
+        next
+        edit 8
+            set name "ariba_one_inet"
+            set dst "ariba"
+            set src "all"
+            set priority-members 1 2
+        next
+        edit 7
+            set name "Redirect-Inet1"
+            set dst "g-Redirect-inet1"
+            set priority-members 1
+        next
+        edit 4
+            set name "SaaS_Teams"
+            set mode priority
+            set src "all"
+            set internet-service enable
+            set internet-service-name "Microsoft-Skype_Teams"
+            set link-cost-factor jitter
+            set priority-members 1 2
+        next
+        edit 5
+            set name "SaaS_Office365"
+            set mode priority
+            set src "all"
+            set internet-service enable
+            set internet-service-name "Microsoft-Office365"
+            set health-check "Ping_Public_DNS2"
+            set priority-members 1 2
+        next
+        edit 6
+            set name "Public_Internet_Traffic"
+            set mode load-balance
+            set dst "all"
+            set src "all"
+            config sla
+                edit "Ping_Public_DNS2"
+                    set id 2
+                next
+            end
+            set priority-members 2 1
+        next
+    end
+
+
+
+#############################   ARP  #######################################
+get system arp
+Address           Age(min)   Hardware Addr      Interface
+10.241.8.193      0          ec:b1:d7:74:0a:e8 wan2
+10.241.8.101      0          50:17:ff:76:b9:92 wan2
+10.241.8.100      0          e8:ed:f3:a8:22:b5 wan2
+192.168.1.1       0          d4:40:f0:d6:d8:8b sw_inet1
+10.241.8.213      0          00:50:56:8a:69:2a wan2
+10.241.8.212      0          00:50:56:8a:04:14 wan2
+10.241.8.126      0          00:50:56:b6:10:04 wan2
+10.241.8.210      0          00:50:56:a4:08:36 wan2
+217.145.86.254    153        ac:1f:6b:ba:f5:84 sw_inet2
+10.241.8.207      0          00:50:56:b6:3b:a0 wan2
+10.241.8.206      0          00:50:56:b6:2a:84 wan2
+10.241.8.203      0          00:50:56:a4:10:bd wan2
+10.241.8.202      0          00:50:56:a4:81:60 wan2
+10.241.8.230      0          00:80:f0:fb:e1:22 wan2
+10.241.8.201      0          00:50:56:a4:df:97 wan2
+10.241.8.200      0          00:50:56:a4:c8:67 wan2
+10.241.8.199      0          00:50:56:a4:06:86 wan2
+10.241.8.225      0          24:5e:be:51:3e:67 wan2
+10.241.8.194      0          ec:b1:d7:74:d7:00 wan2
+
+
+
+############################# SERVICES #######################################
+show system dns-database
+config system dns-database
+show system vdom-dns
+config system vdom-dns
+    set vdom-dns enable
+    set primary 20.9.12.53
+    set secondary 20.9.12.52
+show log setting
+config log setting
+    set fwpolicy-implicit-log enable
+show system dhcp server
+config system dhcp server
+show switch-controller managed-switch
+config switch-controller managed-switch
+get system session list | grep -c tcp
+get system session list | grep -c udp
